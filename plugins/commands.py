@@ -15,8 +15,8 @@ async def start(bot, message):
         await message.reply(INVITE_MSG)
     else:
         buttons = [[
-            InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('Go Inline', switch_inline_query=''),
+            InlineKeyboardButton('Buscar', switch_inline_query_current_chat=''),
+            InlineKeyboardButton('Inline', switch_inline_query=''),
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply(START_MSG, reply_markup=reply_markup)
@@ -80,7 +80,7 @@ async def delete(bot, message):
     if reply and reply.media:
         msg = await message.reply("Processing...⏳", quote=True)
     else:
-        await message.reply('Reply to file with /delete which you want to delete', quote=True)
+        await message.reply('Responde al archivo con /delete que quieres eliminar', quote=True)
         return
 
     for file_type in ("document", "video", "audio"):
@@ -88,7 +88,7 @@ async def delete(bot, message):
         if media is not None:
             break
     else:
-        await msg.edit('This is not supported file format')
+        await msg.edit('Este formato de archivo no es compatible')
         return
 
     result = await Media.collection.delete_one({
@@ -98,6 +98,6 @@ async def delete(bot, message):
         'caption': reply.caption
     })
     if result.deleted_count:
-        await msg.edit('File is successfully deleted from database')
+        await msg.edit('El archivo se ha eliminado correctamente de la base de datos')
     else:
-        await msg.edit('File not found in database')
+        await msg.edit('Archivo no encontrado en la base de datos')
